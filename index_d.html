@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+  <script src="dbase.js"></script>
+  <!--★ 여기부터는 script -->
+  <script type="text/javascript" src="img/hr/jeju/js/jquery-1.9.1.min.js"></script>
+  <script type="text/javascript" src="img/hr/jeju/js/jquery-migrate-1.2.1.min.js"></script>
+  <!--havich dev for movie [s]-->
+  <script type="text/javascript"  src="img/hr/jeju/kr/js/common.js"></script>
+</head>
+<body>
+  <script>
+  window.onload = function(){
+        yearFunc(2017); 
+  }
+  </script>
+  <style>
+    @charset "utf-8";
+    .sub-container div, ul, li, ol{ font-family:'Malgun Gothic','batang','Dotum','Arial','Apple SD Gothic Neo','AppleGothic'; font-size:12px; margin:0; padding:0; border:0; vertical-align:baseline;}
+    ol, ul { list-style:none;-webkit-text-size-adjust:none; }
+    a{text-decoration:none;}
+    em{font-style:normal;}
+    
+    /*sub-container 가장큰것 하늘색*/
+    .sub-container{
+      /* min-height:45px; */
+      background-size:cover;
+    /* background:skyblue; */
+    }
+    
+    /* sub :: 깜장색div의 크기 지정*/
+    #yearbox .sub-container .content{
+      width:124px; 
+      /* height:45px; */
+      margin:0 auto;
+      overflow:hidden;
+      }
+    #monthbox .sub-container .content{
+    width:103px; 
+    /* height:45px; */
+    margin:0 auto;
+    overflow:hidden;}
+    #datebox .sub-container .content{
+    width:98px; 
+    /* height:45px; */
+    margin:0 auto;
+    overflow:hidden;}
+    
+    /*depth3 부분 : 바부분 */
+    /* breadcrumb */
+    #depth3{position:relative;margin:0 0 0 0;height:45px} /*바 전체*/
+    #yearbox #depth3 ul.breadcrumb{
+      background:url('img/hr/jeju/images/common/year_button.png'); float:left; width:124px; height:45px;
+      background-size:cover;
+      /* background:green; */
+      } /*셀렉트 위에꺼*/
+    #monthbox #depth3 ul.breadcrumb{
+    background:url('img/hr/jeju/images/common/month_button.png'); float:left; width:103px; height:45px;
+    background-size:cover;
+    /* background:green; */
+    } /*셀렉트 위에꺼*/
+    #datebox #depth3 ul.breadcrumb{
+    background:url('img/hr/jeju/images/common/day_button.png'); float:left;width:98px;height:45px;
+    background-size:cover;
+    /* background:green; */
+    } /*셀렉트 위에꺼*/
+    #depth3 ul li{float:left;} /*이게 셀렉트 한줄*/
+    /* #depth3:after{display:block;content:"";clear:both;} */
+    
+    /*초록박스=breadcrumb li=년 ol=년도집합 ol li=년도한조각*/
+    ul.breadcrumb li{
+      font-size:12pt;
+      font-family: 'Nanum Gothic';
+      color: #FFFFFF;
+      text-align:left;
+      position:relative;
+      font-weight: bold;
+      padding:2px;
+      width:124px;min-height:45px;
+      /* background:url('img/hr/jeju/images/common/right-ico.gif') 146px 16px no-repeat; */
+      }
+
+      #yearcont, #monthcont, #datecont{
+        font-size:13pt;
+        font-weight: 530;
+        /* font-weight: 545; */
+      }
+
+      #yearcont {
+        padding: 9px 27px;
+      }
+
+      #monthcont {
+        padding: 9px 30px;
+      }
+
+      #datecont {
+        padding: 9px 27px;
+      }
+      
+      #monthbox ul.breadcrumb li{
+        width:103px;
+      }
+      #datebox ul.breadcrumb li{
+        width:98px;
+      }
+    ul.breadcrumb li a{display:block;width:100%;height:45px;}
+    ul.breadcrumb li:first-child{border-left:0;}
+    #yearbox ul.breadcrumb li.has-list{
+      background:url('img/hr/jeju/images/common/list-ico.gif_modified_arrow.png') 100px center no-repeat;cursor:pointer;background-size: 10px 10px;
+      }
+    #monthbox ul.breadcrumb li.has-list{
+    background:url('img/hr/jeju/images/common/list-ico.gif_modified_arrow.png') 80px center no-repeat;cursor:pointer;
+    background-size: 10px 10px;
+    }
+    #datebox ul.breadcrumb li.has-list{
+    background:url('img/hr/jeju/images/common/list-ico.gif_modified_arrow.png') 75px center no-repeat;cursor:pointer;
+    background-size: 10px 10px;
+    }
+
+    ul.breadcrumb li ol li a{display:block;width:100%;}
+
+
+    #yearbox ul.breadcrumb li ol{
+      display:none; background:url('img/hr/jeju/images/common/year_white.png')no-repeat;
+      background-size: 124px;
+      padding:6px 0;
+      border-top:none;
+      position:absolute;
+      top:39px;left:-1px;}
+    #yearbox ul.breadcrumb li ol li{
+      z-index:10;
+      font-weight: bold;
+      font-size: 12pt;
+      text-align: center;
+      color: black; border:none; min-height:25px;}
+
+     #monthbox ul.breadcrumb li ol{
+       display:none;
+       background:url('img/hr/jeju/images/common/month_white.png')no-repeat;
+       background-size: 103px 362px;
+       padding: 6px 0;
+       border-top:none;
+       position:absolute;
+       top:39px;left:-1px;}
+     #monthbox  ul.breadcrumb li ol li{
+      z-index:10;
+      font-weight: bold;
+      font-size: 12pt;
+      text-align: center;
+      color: black; border:none; min-height:25px;}
+
+
+
+     #datebox ul.breadcrumb li ol{
+       display:none;
+       background:url('img/hr/jeju/images/common/day_white.png')no-repeat;
+       background-size: 98px 934px;
+       padding: 6px 0;
+       border-top:none;
+       position:absolute;
+       top:39px;left:-1px;}
+     #datebox ul.breadcrumb li ol li{
+      z-index:10;
+      font-weight: bold;
+      font-size: 12pt;
+      text-align: center;
+      color: black; border:none;min-height:0px;}
+
+      /* ul.breadcrumb li ol li:first-child{background:green;} */
+
+
+  </style>
+
+  <style>
+    #comparison {
+  /* background: red; */
+}
+#caption1 {
+  /* background: green; */
+}
+
+#caption2 {
+  /* background: green; */
+}
+
+
+#timepicker {
+  /* background: green; */
+  z-index:10;
+  height: 45px;
+}
+
+#timeLoop {
+  /* background: red; */
+}
+
+#result_player {
+  /* background: green; */
+}
+
+#station {
+  /* background: white; */
+}
+
+  </style>
+<style>
+@import url("https://googledrive.com/host/0BxmAw3HA4YGCfkljOGVJb3RMR200clRfUTVVdXlaRElPRTV3VGlNZVZ3ay1EYjdiZjJockk/notokr-regular.css");
+@import url("https://googledrive.com/host/0BxmAw3HA4YGCfndGUGZVNzBEbVdkZGg0M0R1OElFeXcteXFVNUFOYlQ4TUdNWHZVQlJHaXM/notokr-black.css");
+@import url("https://googledrive.com/host/0BxmAw3HA4YGCfnV0d3J5S21BSFdGUXctekQ1eHJoczF2OUcyTGZna3laMlg2MWR6cWoyV1E/notokr-bold.css");
+@import url("https://googledrive.com/host/0BxmAw3HA4YGCfnVVTFJoaHQ2R0xQNURCSmp0M1BrWVQ5SVFKN05uaTRabC1XeFRpUm51T2c/notokr-demilight.css");
+@import url("https://googledrive.com/host/0BxmAw3HA4YGCfk5lRk1WVjhQWVRHRldCVEw0TU1qMHhvNEdfM1E0cjZ1Z2ZHRDFfcWRVSDA/notokr-light.css");
+@import url("https://googledrive.com/host/0BxmAw3HA4YGCfmN1U19nTHpWVFd2NHA2dXJ4c0FvOEdVcF9mc3ZfcWNyZjRDZ2plMy12SzQ/notokr-medium.css");
+@import url("https://googledrive.com/host/0BxmAw3HA4YGCflRiaUxHOFVCcXVfWmpqeERVZ3AzcDAtM2FRV25XclJDRnVrTVVqamZJcEE/notokr-thin.css"); 
+
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothiccoding.css);
+@import url(http://fonts.googleapis.com/earlyaccess/nanumbrushscript.css);
+
+
+select{
+  font-family: notokr-black !important;
+  font-weight: bold;
+  font-size: 12pt;
+  text-align: center;
+}
+#testtest {
+  /* background: blue; */
+  font-family: notokr-black !important;
+  font-weight: bold;
+  font-size: 13pt;
+  line-height: 1.2em;
+  color: #a2a4a7;
+  z-index: 0;
+  position:absolute;top:39%;left:41.5%;width:17%;height:20.5%;text-align:center;
+}
+#test_station {
+  position: relative; height:80%; width:100%;
+}
+
+#test_stN {
+  /* background: red; */
+  position: relative; height:38px;
+}
+
+#test_stName{
+  /* background: green; */
+  position: relative; height:35px;
+}
+#test_on{
+  /* background: aqua; */
+  position: relative; height:55px;
+}
+#test_off{
+  /* background: yellowgreen; */
+}
+
+#test_header{
+  /* background:red; */
+  position: relative; height:70px;
+}
+#test_selected{
+  /* background: green; */
+  position: relative; height:70px;
+}
+#test_total{
+  /* background: red; */
+  position: relative; height:70px;
+}
+#testtest .before {
+  /* background: green; */
+  display: inline-block;
+  vertical-align: middle;
+  position:relative; top:20%;
+  z-index:1;
+}
+#testtest .after {
+  /* background: white; */
+  display: inline-block;
+  vertical-align: middle;
+  z-index:1;
+}
+
+.content {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+
+
+
+.ng {
+  font-family: 'Nanum Gothic';
+  font-weight: bold;
+}
+body {
+  background:rgb(19,18,26);
+  color: #ffffff;
+}
+h1 {
+  font-size: 32pt;
+  color: #ffffff;
+}
+table {
+  background: #ffffff;
+  color: #000000;
+  margin: 0 auto;
+  text-align: center;
+  border-collapse: collapse;
+  border: 1px solid #d4d4d4;
+}
+
+tr:nth-child(even) {
+  background: #d4d4d4;
+  color: #000000;
+}
+
+th, td {
+  padding: 10px 30px;
+}
+
+th {
+  border-bottom: 1px solid #d4d4d4;
+}
+</style>
+<style>
+    #title{
+    /* background: white; */
+    position:absolute; width:100%; height:100%;
+    }
+
+    #center{
+      /* background: blue; */
+      position:absolute; width:100%; text-align:center;
+    }
+
+    #title_letter{
+      /* background: green; */
+      display: inline-block;
+      vertical-align: middle;
+      }
+
+    #side_left {
+      /* background: aqua; */
+      display: inline-block;
+      vertical-align: middle;
+      position:absolute; height:100%;
+    }
+    /* #side_right {
+      background: aquamarine;
+      position:absolute; width:10%; height:100%; text-align:right;
+    } */
+</style>
+<div id="title">
+  <div id="side_left">
+          
+  </div>
+  
+  
+  <!-- <div id="side_right">
+      <div id="english_button" style="position:absolute; top:2%; left:79%;"><img src="img/english_button.png" width="52"></div>
+      <div id="chinese_button" style="position:absolute; top:2%; left:88%;"><img src="img/chinese_button.png" width="52"></div>
+  
+      <div id="subway_roundlogo" style="position:absolute; top:8.8%; left:89%;"><img src="img/subway_roundlogo.png" width="42"></div>
+      <div id="caption">
+          <div id="caption1"><img src="img/caption1.png" width="85"></div>
+          <div id="caption2"><img src="img/caption2.png" width="15"></div>    
+      </div>    
+  </div> -->
+  
+</div>
+<style>
+    #timeLoop{
+      position:absolute; width:100%; z-index:1;
+    }
+
+</style>
+
+
+<div id="remote" style="position:absolute; top:45%; left:74%;">
+    <p id="result_timeLoop_2">
+        <center>
+          <!-- <button onclick="importData_Init('20170102_org')">test</button> -->
+          <!-- 승차만, 하차만, 합계 필터기능 (추후에 구현 예정 2018-03-21)
+          <button onclick="set_on()">승</button>
+          <button onclick="set_off()">하</button>
+          <button onclick="set_onoff()">합</button>
+          <br/>
+          -->
+          <!-- 역컨트롤기능
+          <button onclick="clearStation()">역해제</button>
+          <button onclick="set_Station_prev()">이전</button>
+          <button onclick="set_Station_next()">다음</button>
+          -->
+        </center>
+    </p>
+</div>
+
+
+
+
+
+
+<style>
+  #comparison{
+    position:absolute; width:100%; height:267px; text-align:center;
+  }
+  .comparison_title{
+    /* background: green; */
+    /* display: inline-block; */
+    vertical-align: middle;
+    text-align: left;
+  }
+
+  #comparison .comparison_graph{
+    /* background:white; */
+    display: inline-block;
+    vertical-align: middle;
+    height:100%;
+  }
+
+
+
+  #station {
+    /* background:white; */
+    position:absolute; width:100%; height:100%; text-align:center; z-index:0;
+  }
+
+  #station .station_graph {
+    /* background: white; */
+    display: inline-block;
+    vertical-align: middle;
+    position:relative; height:100%;
+  }
+
+  .aaa{
+    width:900px;
+    /* position:relative; top:30%; */
+  }
+
+  .station_graph .station_left{
+    /* background: lightgray; */
+    vertical-align: middle;
+    text-align:left;
+    position:absolute; width:50%; height:100%;
+  }
+  #seoul_logo {
+    /* background: white; */
+    position:absolute; left:10%; top:35px;
+  }
+
+  .station_graph .station_right{
+    /* background: lightgray; */
+    vertical-align: middle;
+    text-align:right;
+    position:absolute; left:50%; width:50%; height:100%;
+  }
+  
+  #button {
+    /* background: red; */
+    position: absolute; width:80%; left:15%; top:45px;
+  }
+  #subway_roundlogo{
+    /* background: red; */
+    position: absolute; width:80%; left:15%; top:153px;
+  }
+
+  #caption {
+      /* background: aqua; */
+      position:absolute; width:50%; left:40%; top:1312px; text-align:right; z-index:1;
+    }
+    #caption1 {
+      /* background:white; */
+      position:absolute; width:80%; left:20%; top:0px;
+
+    }
+
+  </style>
+
+
+<div id="station">
+  <span class="station_graph">
+
+<!-- 좌우영역 -->
+    <div class="station_left">
+        <div id="seoul_logo"><img src="img/seoul_logo.png" height="55"><br/></div>
+    </div>
+
+    <div class="station_right">
+      <div id="button">
+          <img src="img/english_button.png" height="30">
+          <img src="img/chinese_button.png" height="30">
+      </div>
+      <div id="subway_roundlogo"><img src="img/subway_roundlogo.png" height="50"></div>
+      <div id="caption">
+          <div id="caption1"><img src="img/caption1.png" height="110"></div>
+      </div>
+    </div>
+
+<!--상하영역 -->
+<style>
+  #center{
+    position: absolute; top:111px;
+  }
+  #timeLoop{
+    /* background:white; */
+    position: absolute; top:282px; height:300px;
+  }
+  .aaa{
+    position: relative; top:535px;
+  }
+  #comparison{
+    position: absolute; top:1465px;
+  }
+</style>
+<div id="horizontal">
+    <div id="center">
+        <span id="title_letter">
+            <h1 class="ng">실시간 지하철 승하차 인원</h1>
+        </span>
+        <hr color="#312B3E" noshade/>
+    </div>
+    <style>
+
+      #timepicker {
+        /* background: blue; */
+        position:absolute; width:45%; left:31.5%;
+      }
+
+      #yearbox {
+      /* background:red; */
+      z-index:100;
+      position:absolute; left:0%;
+    }
+    #monthbox{
+      /* background:green; */
+      z-index:100;
+      position:absolute; left:36%;
+    }
+    #datebox{
+      /* background:red; */
+      z-index:100;
+      position:absolute; left:67%;
+    }
+
+      #timeline{
+        position: relative; top: 0px;
+      }
+      #result_player{
+        /* background: green; */
+        position: relative; top:15px;
+      }
+    </style>
+    <style>
+      #datepicker {
+        /* background: white; */
+        position: absolute; top:0%; width: 43.3%; height: 45px; left:29%;
+      }
+      #datepicker_y {
+        /* background: red; */
+        position: absolute; top:0%; width:37.4%; left:0%;
+      }
+      #datepicker_m {
+        /* background: green; */
+        position: absolute; top:0%; width:31.8%; left:37.4%;
+
+      }
+      #datepicker_d {
+        /* background: red; */
+        position: absolute; top:0%; width:30.8%; left:69.2%;
+
+      }
+
+    </style>
+    <div id="timeLoop">
+        <div id="timepicker">
+            <script src="timepicker.js"></script>
+            <!-- <div id="datepicker">
+              <div id="datepicker_y">
+                  <img src="img/year_button.png" height="45">
+                </div>
+                <div id="datepicker_m">
+                  <img src="img/month_button.png" height="45">
+                </div>
+                <div id="datepicker_d">
+                  <img src="img/day_button.png" height="45">
+                </div>
+            </div> -->
+            
+        </div>
+        <style>
+          #timeloopmain{
+            /* background: green; */
+            z-index:0;
+            position: absolute; width:100%; z-index:0; top:74px;
+          }
+          #result_player{
+            /* background: black;  */
+            position: absolute; width:100%; top:228px;
+            z-index:2;
+          }
+        </style>
+        <div id="timeloopmain">
+            <p id="result_timeLoop">
+                <center>
+                  <img src="img/totalperson_title.png" width="35">
+                  <img src="img/totalperson_icon.png" width="8">
+                  <svg id ="svgTimeLoop" width="1600" height="250">
+                      <rect  id="tLoop5" x="20" y="000" width="59" height="250" style="fill:#374565;" onclick="selectHour(5)"/>
+                      <rect  id="tLoop6" x="99" y="100" width="59" height="150" style="fill:#374565;" onclick="selectHour(6)"/>
+                      <rect  id="tLoop7" x="178" y="000" width="59" height="250" style="fill:#374565;" onclick="selectHour(7)"/>
+                      <rect  id="tLoop8" x="257" y="100" width="59" height="150" style="fill:#374565;" onclick="selectHour(8)"/>
+                      <rect  id="tLoop9" x="336" y="000" width="59" height="250" style="fill:#374565;" onclick="selectHour(9)"/>
+                      <rect  id="tLoop10" x="415" y="100" width="59" height="150" style="fill:#374565;" onclick="selectHour(10)"/>
+                      <rect  id="tLoop11" x="494" y="000" width="59" height="250" style="fill:#374565;" onclick="selectHour(11)"/>
+                      <rect  id="tLoop12" x="573" y="100" width="59" height="150" style="fill:#374565;" onclick="selectHour(12)"/>
+                      <rect  id="tLoop13" x="652" y="000" width="59" height="250" style="fill:#374565;" onclick="selectHour(13)"/>
+                      <rect  id="tLoop14" x="731" y="100" width="59" height="150" style="fill:#374565;" onclick="selectHour(14)"/>
+                      <rect  id="tLoop15" x="810" y="000" width="59" height="250" style="fill:#374565;" onclick="selectHour(15)"/>
+                      <rect  id="tLoop16" x="889" y="100" width="59" height="150" style="fill:#374565;" onclick="selectHour(16)"/>
+                      <rect  id="tLoop17" x="968" y="000" width="59" height="250" style="fill:#374565;" onclick="selectHour(17)"/>
+                      <rect  id="tLoop18" x="1047" y="100" width="59" height="150" style="fill:#374565;" onclick="selectHour(18)"/>
+                      <rect  id="tLoop19" x="1126" y="000" width="59" height="250" style="fill:#374565;" onclick="selectHour(19)"/>
+                      <rect  id="tLoop20" x="1205" y="100" width="59" height="150" style="fill:#374565;" onclick="selectHour(20)"/>
+                      <rect  id="tLoop21" x="1284" y="000" width="59" height="250" style="fill:#374565;" onclick="selectHour(21)"/>
+                      <rect  id="tLoop22" x="1363" y="100" width="59" height="150" style="fill:#374565;" onclick="selectHour(22)"/>
+                      <rect  id="tLoop23" x="1442" y="000" width="59" height="250" style="fill:#374565;" onclick="selectHour(23)"/>
+                      <rect  id="tLoop24" x="1521" y="100" width="59" height="150" style="fill:#374565;" onclick="selectHour(24)"/>
+                      <!-- <line  id="tLoop_line" x1="0" y1="250" x2="1600" y2="250" style="stroke:#3D3B59;stroke-width:2" /> -->
+                  </svg>
+                </p>
+        </div>
+        
+              <style>
+                #timeline {
+                  /* background: red; */
+                  z-index:1;
+                  position: absolute; width:100%; top:165px;
+                }
+                #timeline_axis{
+                  text-align: right;
+                  /* background: gray; */
+                  z-index:0;
+                  position: absolute; top:0px; left:20%; width:80px; height:20px;
+                }
+                #timeline_no{
+                  text-align: left;
+                  z-index:0;
+                  position: absolute; top:0px; left:32.1%; width:410px; height:20px;
+                }
+                #time_06 {
+                  /* background: green; */
+                  position: absolute; top:0%; left:0%; width:30.7%; height:100%; z-index:1;
+                }
+                #time_12 {
+                  /* background: black; */
+                  position: absolute; top:0px; left:30.7%; width:30.7%; height:100%; z-index:1;
+                }
+                #time_18 {
+                  /* background: green; */
+                  position: absolute; top:0px; left:61.4%; width:30.7%; height:100%; z-index:1;
+                }
+                #time_24 {
+                  /* background: black; */
+                  position: absolute; top:0px; left:92.1%; width:30.7%; height:100%; z-index:1;
+                }
+                #timeline_icon {
+                  text-align: left;
+                  /* background: gray; */
+                  position: absolute; top:20px; left:32.5%; width:410px; height:20px;
+                }
+                #sun_icon{
+                  /* background: green; */
+                  position: absolute; top:0px; left:30.5%; width:30.5%; height:100%; z-index:1;
+
+                }
+                #moon_icon{
+                  /* background:green; */
+                  position: absolute; top:0px; left:92.0%; width:30.5%; height:100%; z-index:1;
+
+                }
+              </style>
+              <div id="timeline">
+                <span class="content">
+                  <div id="timeline_axis">
+                    <img src="img/time_title.png" width="22">
+                    <img src="img/time_icon.png" width="10">
+                  </div>
+                    <div id="timeline_no">
+                      <div id="time_06">
+                        <img src="img/06_time.png" height="10">
+                      </div>
+                      <div id="time_12">
+                        <img src="img/12_time.png" height="10">
+                      </div>
+                      <div id="time_18">
+                        <img src="img/18_time.png" height="10">
+                      </div>
+                      <div id="time_24">
+                        <img src="img/24_time.png" height="10">
+                      </div>
+                    </div>
+                    <div id="timeline_icon">
+                      <div id="sun_icon">
+                          <img src="img/sun_icon.png" height="11">
+                      </div>
+                      <div id="moon_icon">
+                          <img src="img/moon_icon.png" height="9">
+                      </div>
+                    </div>
+                    　　　　　　　
+                    　　　　　　　　　 　　
+                </span>
+              </div>
+    
+              
+          
+          <div id="result_player">
+              <!-- <p id="result_player"></p> -->
+            </div>
+    </div>
+
+    <div class="aaa">
+        <p id="result_timepicker">
+          </p>
+        <p id="result_timeLoop_3">
+        </p>
+    </div>
+
+    <div id="comparison">
+        <span class="comparison_graph">
+            <div class="comparison_title">
+                <img src="img/comparison_title.png" height="14">
+            </div>
+            <div class="comparison_axis_y">
+                <svg id="svgPofLines" width="900" height="100">
+                    <line id="pLine_line_x_1" x1="0" y1="01" x2="900" y2="01" style="stroke:#3D3B59;stroke-width:1" />
+                    <line id="pLine_line_x_2" x1="0" y1="25" x2="900" y2="25" style="stroke:#3D3B59;stroke-width:1" />
+                    <line id="pLine_line_x_3" x1="0" y1="50" x2="900" y2="50" style="stroke:#3D3B59;stroke-width:1" />
+                    <line id="pLine_line_x_4" x1="0" y1="75" x2="900" y2="75" style="stroke:#3D3B59;stroke-width:1" />
+                    <line id="pLine_line_x_5" x1="0" y1="99" x2="900" y2="99" style="stroke:#3D3B59;stroke-width:1" />
+                    <circle id="pLine1" cx="100" cy="100" r="50" style="fill:rgb(13,54,146);fill-opacity:0.79;"/>
+                    <circle id="pLine2" cx="200" cy="100" r="50" style="fill:rgb(51,162,61);fill-opacity:0.79;"/>
+                    <circle id="pLine3" cx="300" cy="100" r="50" style="fill:rgb(254,91,16);fill-opacity:0.79;"/>
+                    <circle id="pLine4" cx="400" cy="100" r="50" style="fill:rgb(0,162,209);fill-opacity:0.79;"/>
+                    <circle id="pLine5" cx="500" cy="100" r="50" style="fill:rgb(139,80,164);fill-opacity:0.79;"/>
+                    <circle id="pLine6" cx="600" cy="100" r="50" style="fill:rgb(197,92,29);fill-opacity:0.79;"/>
+                    <circle id="pLine7" cx="700" cy="100" r="50" style="fill:rgb(84,100,13);fill-opacity:0.79;"/>
+                    <circle id="pLine8" cx="800" cy="100" r="50" style="fill:rgb(241,46,130);fill-opacity:0.79;"/>
+                  </svg>
+            </div>
+            <div id="comparison_axis_x">
+              <div id="line1">
+                <img src="img/line1.png" width="10">
+              </div>
+              <div id="line2">
+                <img src="img/line2.png" width="10">
+              </div>
+              <div id="line3">
+                <img src="img/line3.png" width="10">
+              </div>
+              <div id="line4">
+                <img src="img/line4.png" width="10">
+              </div>
+              <div id="line5">
+                <img src="img/line5.png" width="10">
+              </div>
+              <div id="line6">
+                <img src="img/line6.png" width="10">
+              </div>
+              <div id="line7">
+                <img src="img/line7.png" width="10">
+              </div>
+              <div id="line8">
+                <img src="img/line8.png" width="10">
+              </div>
+            </div>
+          </span>
+      </div>
+</div>
+    
+  </span>
+
+</div>
+<style>
+    .comparison_axis_y{
+      /* background:blue; */
+      position: relative; top:28px;
+      z-index: 1;
+    }
+    #comparison_axis_x{
+      /* background: yellow; */
+      position: relative; top: 15%; left: 5.5%; width: 89%; height: 20px;
+      z-index: 2;
+    }
+    #comparison_axis_x #line1{
+      /* background: black; */
+      position: absolute; top:0%; height:100%; left:0%; width:12.5%;
+    }
+    #comparison_axis_x #line2{
+      /* background: green; */
+      position: absolute; top:0%; height:100%; left:12.5%; width:12.5%;
+    }
+    #comparison_axis_x #line3{
+      /* background: black; */
+      position: absolute; top:0%; height:100%; left:25%; width:12.5%;
+    }
+    #comparison_axis_x #line4{
+      /* background: green; */
+      position: absolute; top:0%; height:100%; left:37.5%; width:12.5%;
+    }
+    #comparison_axis_x #line5{
+      /* background: black; */
+      position: absolute; top:0%; height:100%; left:50%; width:12.5%;
+    }
+    #comparison_axis_x #line6{
+      /* background: green; */
+      position: absolute; top:0%; height:100%; left:62.5%; width:12.5%;
+    }
+    #comparison_axis_x #line7{
+      /* background: black; */
+      position: absolute; top:0%; height:100%; left:75%; width:12.5%;
+    }
+    #comparison_axis_x #line8{
+      /* background: green; */
+      position: absolute; top:0%; height:100%; left:87.5%; width:12.5%;
+    }
+  </style>
+
+
+
+<div id="footer" style="position:absolute; top:110%; left:8%;">
+    <p id="result_data">
+      </p>
+</div>
+</body>
+</html>
